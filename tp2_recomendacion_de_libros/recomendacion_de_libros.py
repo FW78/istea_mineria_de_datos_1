@@ -1,5 +1,6 @@
+# Importo las librerias necesarias
 import pandas as pd
-import os # importo la libreria os para utilizar os.system("cls") para limpiar la consola
+import os # para utilizar os.system("cls") para limpiar la consola
 
 # Creo la clase Libro
 class Libro:
@@ -9,7 +10,7 @@ class Libro:
         self.genero = genero
         self.puntuacion = puntuacion
 
-# Creo la funcion crear_libro
+# Creo la funcion crear_libro, esta solicita al usuario los campos requeridos para instanciar la clase Libro, y luego lo agrega a la lista lista_libros
 def crear_libro():
     os.system("cls")
     titulo = input("Ingrese el título\n").upper()
@@ -19,16 +20,23 @@ def crear_libro():
     nuevo_libro = Libro(titulo, autor, genero, puntuacion)
     lista_libros.append(nuevo_libro)
 
-# Creo la funcion buscar_libros
-def buscar_libros():
+# Creo la funcion ordenar_generos, esta hace un set con los generos de la lista_libros y los devuelve como una lista ordenada
+def ordenar_generos():
     generos = set()
     for libro in lista_libros:
         generos.add(libro.genero)
     generos_ordenados = sorted(list(generos))
-    os.system("cls")
-    print("Seleccione el género del libro que desea buscar.\n\nLas opciones disponibles son:\n")
-    print(generos_ordenados)
-    genero_seleccionado = input().upper()
+    return generos_ordenados
+
+# Creo la funcion buscar_libros, esta solicita al usuario el genero a buscar y devuelve una lista filtrada con los libros de dicho genero
+def buscar_libros():
+    generos_ordenados = ordenar_generos()
+    genero_seleccionado = ()
+    while genero_seleccionado not in generos_ordenados:
+        os.system("cls")
+        print("Seleccione el género del libro que desea buscar.\n\nLas opciones disponibles son:\n")
+        print(generos_ordenados)
+        genero_seleccionado = input().upper()
     libros_filtrados = list(filter(lambda x: x.genero == genero_seleccionado, lista_libros))
     os.system("cls")
     print(f"Libros de {genero_seleccionado}:\n")
@@ -36,16 +44,15 @@ def buscar_libros():
         print(f"* {libro.titulo}")
     input("\nPresione cualquier tecla para continuar...\n")
 
-# Creo la funcion recomendar_libros
+# Creo la funcion recomendar_libros, esta solicita al usuario un genero y devuelve el libro mejor puntuado de dicho genero
 def recomendar_libros():
-    generos = set()
-    for libro in lista_libros:
-        generos.add(libro.genero)
-    generos_ordenados = sorted(list(generos))
-    os.system("cls")
-    print("¿Que género es de su interés?\n\nLas opciones disponibles son:\n")
-    print(generos_ordenados)
-    genero_seleccionado = input().upper()
+    generos_ordenados = ordenar_generos()
+    genero_seleccionado = ()
+    while genero_seleccionado not in generos_ordenados:
+        os.system("cls")
+        print("¿Que género es de su interés?\n\nLas opciones disponibles son:\n")
+        print(generos_ordenados)
+        genero_seleccionado = input().upper()
     libros_filtrados = list(filter(lambda x: x.genero == genero_seleccionado, lista_libros))
     max = 0
     for libro in libros_filtrados:
@@ -70,8 +77,7 @@ for fila in lista_importada:
     libro_importado_nuevo = Libro(titulo, autor, genero, puntuacion) # instancio la clase
     lista_libros.append(libro_importado_nuevo)
 
-# Igreso al loop principal
-
+# main
 while True:
     os.system("cls")
     print("BIENVENIDOS AL SISTEMA DE RECOMENDACION DE LIBROS.\n\nSeleccione una opción:\n\nA para agregar un libro.\nB para buscar libros por género.\nR para recomendar un libro.\nS para salir.\n")
