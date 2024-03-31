@@ -10,13 +10,28 @@ class Libro:
         self.genero = genero
         self.puntuacion = puntuacion
 
+# Creo la funcion validar_float
+def validar_float():
+    try:
+        puntuacion = input("Ingrese la puntuación\n")
+        float(puntuacion)
+    except ValueError:
+        return False
+    else:
+        return puntuacion
+
 # Creo la funcion crear_libro, esta solicita al usuario los campos requeridos para instanciar la clase Libro, y luego lo agrega a la lista lista_libros
 def crear_libro():
     os.system("cls")
     titulo = input("Ingrese el título\n").upper()
-    autor = input("\nIngrese el autor\n").upper()
-    genero = input("\nIngrese el género\n").upper()
-    puntuacion = input("\nIngrese la puntuación\n") # pasar a float y validar entrada
+    os.system("cls")
+    autor = input("Ingrese el autor\n").upper()
+    os.system("cls")
+    genero = input("Ingrese el género\n").upper()
+    puntuacion = False
+    while puntuacion == False:
+        os.system("cls")   
+        puntuacion = validar_float()
     nuevo_libro = Libro(titulo, autor, genero, puntuacion)
     lista_libros.append(nuevo_libro)
 
